@@ -1,14 +1,14 @@
-package br.com.btguth.howmany;
+package br.com.btguth.howmany.utils;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import br.com.btguth.howmany.model.BaseItem;
 
-final class DemoUtils {
+public class DemoUtils {
   int currentOffset;
 
-  DemoUtils() {
+  public DemoUtils() {
   }
 
   public List<BaseItem> moarItems(int qty) {

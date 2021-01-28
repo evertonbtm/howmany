@@ -2,7 +2,6 @@ package br.com.btguth.howmany;
 
 import android.os.Bundle;
 
-import com.felipecsl.asymmetricgridview.library.Utils;
 import com.felipecsl.asymmetricgridview.library.widget.AsymmetricGridView;
 import com.felipecsl.asymmetricgridview.library.widget.AsymmetricGridViewAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -22,6 +21,7 @@ import android.widget.ListAdapter;
 import android.widget.Toast;
 
 import br.com.btguth.howmany.adapter.DefaultListAdapter;
+import br.com.btguth.howmany.utils.DemoUtils;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
         adapter = new DefaultListAdapter(this, demoUtils.moarItems(6));
 
         listView.setRequestedColumnCount(3);
-        listView.setRequestedHorizontalSpacing(Utils.dpToPx(this, 1));
+        //listView.setRequestedHorizontalSpacing(Utils.dpToPx(this, 5));
         //listView.setDebugging(true);
         listView.setAllowReordering(true);
         listView.setAdapter(getNewAdapter());
