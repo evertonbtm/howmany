@@ -33,27 +33,30 @@ public class DefaultListAdapter extends ArrayAdapter<BaseItem> implements BasicA
     View v;
 
     BaseItem item = getItem(position);
-    boolean isRegular = getItemViewType(position) == 0;
+    //boolean isRegular = getItemViewType(position) == 0;
 
-    if (convertView == null) {
+    /*if (convertView == null) {
       v = layoutInflater.inflate(
           isRegular ? R.layout.adapter_item : R.layout.adapter_item_odd, parent, false);
     } else {
       v = convertView;
-    }
+    }*/
 
-    TextView tag;
-    TextView value;
-    if (isRegular) {
+    v = layoutInflater.inflate(R.layout.adapter_item , parent, false);
+
+    TextView tag = (TextView) v.findViewById(R.id.counter_tag);
+    TextView value = (TextView) v.findViewById(R.id.counter_value);
+
+   /* if (isRegular) {
       tag = (TextView) v.findViewById(R.id.counter_tag);
       value = (TextView) v.findViewById(R.id.counter_value);
     } else {
       tag = (TextView) v.findViewById(R.id.counter_tag_odd);
       value = (TextView) v.findViewById(R.id.counter_value_odd);
-    }
+    }*/
 
-    value.setText(String.valueOf(item.getPosition()));
-    tag.setText("Contador");
+    value.setText(String.valueOf(item.getCounterTag()));
+    tag.setText(String.valueOf(item.getCounterValue()));
 
     return v;
   }

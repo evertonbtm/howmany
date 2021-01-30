@@ -2,6 +2,7 @@ package br.com.btguth.howmany;
 
 import android.os.Bundle;
 
+import com.felipecsl.asymmetricgridview.library.Utils;
 import com.felipecsl.asymmetricgridview.library.widget.AsymmetricGridView;
 import com.felipecsl.asymmetricgridview.library.widget.AsymmetricGridViewAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -37,14 +38,13 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         listView = (AsymmetricGridView) findViewById(R.id.listView);
-        adapter = new DefaultListAdapter(this, demoUtils.moarItems(6));
+        adapter = new DefaultListAdapter(this, demoUtils.moarItems(7));
 
         listView.setRequestedColumnCount(3);
-        //listView.setRequestedHorizontalSpacing(Utils.dpToPx(this, 5));
+        listView.setRequestedHorizontalSpacing(Utils.dpToPx(this, 3));
         //listView.setDebugging(true);
         listView.setAllowReordering(true);
         listView.setAdapter(getNewAdapter());
-
         listView.setOnItemClickListener(this::onItemClick);
 
         FloatingActionButton fab = findViewById(R.id.fab);
@@ -80,20 +80,20 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putInt("currentOffset",1);
-        outState.putInt("itemCount", adapter.getCount());
-        for (int i = 0; i < adapter.getCount(); i++) {
-            outState.putParcelable("item_" + i, (Parcelable) adapter.getItem(i));
-        }
-    }
-
-
     private AsymmetricGridViewAdapter getNewAdapter() {
         return new AsymmetricGridViewAdapter(this, listView, adapter);
+    }
+
+    private void setNumColumns(int numColumns) {
+        listView.setRequestedColumnCount(numColumns);
+        listView.determineColumns();
+        listView.setAdapter(getNewAdapter());
+    }
+
+    private void setColumnWidth(int columnWidth) {
+        listView.setRequestedColumnWidth(Utils.dpToPx(this, columnWidth));
+        listView.determineColumns();
+        listView.setAdapter(getNewAdapter());
     }
 
     public void onItemClick(@NonNull AdapterView<?> parent, @NonNull View view,
