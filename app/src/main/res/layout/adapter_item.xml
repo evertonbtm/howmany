@@ -1,33 +1,25 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-android:id="@+id/layout"
-android:background="@drawable/text_view_background_selector"
-android:gravity="center"
-android:layout_width="match_parent"
-android:layout_height="match_parent">
+    android:id="@+id/layout"
+    android:background="@drawable/text_view_background_selector"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
 
-    <View
-        android:layout_width="5dp"
+    <TextView
+        android:id="@+id/counter_tag"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/gray_background" />
+        android:gravity="center"
+        android:layout_marginBottom="25dp"
+        android:textColor="@color/black"
+        android:textSize="20sp" />
 
-<TextView
-    android:id="@+id/counter_tag"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:gravity="center"
-    android:textColor="@color/black"
-    android:textSize="18sp" />
-
-<TextView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/counter_value"
-    android:layout_below="@id/counter_tag"
-    android:layout_marginTop="10dp"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:gravity="center"
-    android:textColor="@color/black"
-    android:textSize="18sp" />
-
+    <TextView
+        android:id="@+id/counter_value"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="25dp"
+        android:gravity="center"
+        android:textColor="@color/black"
+        android:textSize="18sp" />
 
 </RelativeLayout>

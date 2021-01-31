@@ -13,10 +13,11 @@ public class DemoUtils {
   public DemoUtils() {
   }
 
-  public List<BaseItem> moarItems(int qty) {
+  public List<BaseItem> createList(int qty) {
     List<BaseItem> items = new ArrayList<>();
+    BaseItem  bi = null;
 
-    BaseItem  bi = new BaseItem(1, 1, 4,"Cerveja",3);
+    bi = new BaseItem(1, 1, 4,"Cerveja",3);
     items.add(bi);
     bi = new BaseItem(2, 3, 0,"Jambrada",499);
     items.add(bi);

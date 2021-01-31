@@ -2,10 +2,10 @@ package br.com.btguth.howmany.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-
 import androidx.annotation.NonNull;
 
-import com.felipecsl.asymmetricgridview.library.model.AsymmetricItem;
+
+import com.felipecsl.asymmetricgridview.AsymmetricItem;
 
 import java.util.Comparator;
 
@@ -53,7 +53,7 @@ public class BaseItem implements AsymmetricItem {
   }
 
   @Override public String toString() {
-    return String.format("%s: %sx%s", position, rowSpan, columnSpan,counter_tag,counter_value);
+    return String.format("%s: %sx%s%s%s", position, rowSpan, columnSpan,counter_tag,counter_value);
   }
 
   @Override public int describeContents() {
