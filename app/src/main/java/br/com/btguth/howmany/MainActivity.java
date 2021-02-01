@@ -2,6 +2,7 @@ package br.com.btguth.howmany;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -17,18 +18,25 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 
 import android.view.MenuItem;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+
 import br.com.btguth.howmany.adapter.DefaultListAdapter;
 import br.com.btguth.howmany.utils.DemoUtils;
+import petrov.kristiyan.colorpicker.ColorPicker;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -58,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                feedback();
+                addCounter();
                 listView.onSaveInstanceState();
             }
         });
@@ -66,7 +74,11 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -107,7 +119,7 @@ public class MainActivity extends AppCompatActivity {
         Toast.makeText(this, "Item " + position + " clicked", Toast.LENGTH_SHORT).show();
     }
 
-    private void feedback() {
+    private void addCounter() {
 
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
         LayoutInflater inflater = this.getLayoutInflater();
@@ -117,36 +129,49 @@ public class MainActivity extends AppCompatActivity {
         dialogBuilder.setCustomTitle(dialogTitle);
 
         final EditText name = (EditText) dialogBody.findViewById(R.id.addTagEdit);
-        final Spinner unityType = (Spinner) dialogBody.findViewById(R.id.addUnityTypeSpinner);
-        String array_unityType[] = new String[5];
-        array_unityType[0]="Litros";
-        array_unityType[1]="Kilos";
-        array_unityType[2]="Unidades";
-        array_unityType[3]="Metros";
-        array_unityType[4]="Metros";
 
-        ArrayAdapter adapter = new ArrayAdapter(this,
-                android.R.layout.simple_spinner_item, array_unityType);
-        unityType.setAdapter(adapter);
+        final Spinner unityType = (Spinner) dialogBody.findViewById(R.id.addUnityTypeSpinner);
+        unityType.setAdapter(new ArrayAdapter(this,
+                android.R.layout.simple_spinner_item, getResources().getStringArray(R.array.measure_unity)));
 
         final Spinner unityTypeMult = (Spinner) dialogBody.findViewById(R.id.addUnityMultSpinner);
-        Integer array_unityTypeMult[] = new Integer[5];
-        array_unityTypeMult[0]=1;
-        array_unityTypeMult[1]=2;
-        array_unityTypeMult[2]=3;
-        array_unityTypeMult[3]=4;
-        array_unityTypeMult[4]=5;
+        unityTypeMult.setAdapter(new ArrayAdapter(this,
+                android.R.layout.simple_spinner_item, getResources().getStringArray(R.array.unity_multiplier)));
 
-        adapter = new ArrayAdapter(this,
-                android.R.layout.simple_spinner_item, array_unityTypeMult);
-        unityTypeMult.setAdapter(adapter);
+        ArrayList<String> colorArray = new ArrayList<String>();
+        Collections.addAll(colorArray, getResources().getStringArray(R.array.tag_color_array));
+        Button tagColor = (Button)  dialogBody.findViewById(R.id.addCounterColorButton);
+        tagColor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                ColorPicker colorPicker = new ColorPicker(MainActivity.this);
+                colorPicker.setColors(colorArray);
+                colorPicker.show();
+                colorPicker.setOnChooseColorListener(new ColorPicker.OnChooseColorListener() {
+                    @Override
+                    public void onChooseColor(int position,int color) {
+                        tagColor.setBackgroundColor(color);
+                    }
+
+                    @Override
+                    public void onCancel(){
+                        // put code
+                    }
+                });
+            }
+        });
+
+        final Spinner clickAction = (Spinner) dialogBody.findViewById(R.id.addClickActSpinner);
+        clickAction.setAdapter(new ArrayAdapter(this,
+                android.R.layout.simple_spinner_item, getResources().getStringArray(R.array.counter_click_act)));
 
         //final EditText email = (EditText) dialogBody.findViewById(R.id.customEmail);
         //final EditText message = (EditText) dialogBody.findViewById(R.id.customFeedback);
 
         //dialogBuilder.setTitle("Send FeedBack");
         //dialogBuilder.setMessage("please send me to your feedback.");
-        dialogBuilder.setPositiveButton("Send", new DialogInterface.OnClickListener() {
+        dialogBuilder.setPositiveButton(getResources().getText(R.string.tag_add_save), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
                 String nameStr = name.getText().toString().trim();
                 //String emailStr = email.getText().toString();
@@ -154,7 +179,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-        dialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        dialogBuilder.setNegativeButton(getResources().getText(R.string.tag_add_cancel), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
                 //pass
             }

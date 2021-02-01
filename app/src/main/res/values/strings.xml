@@ -1,17 +1,68 @@
 <resources>
+
+    <!-- APP names & bars -->
     <string name="app_name">HowMany</string>
     <string name="action_settings">Settings</string>
-    <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
-    <string name="next">Next</string>
-    <string name="previous">Previous</string>
 
-    <string name="hello_first_fragment">Hello first fragment</string>
-    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
 
-    <string name="tag_description">Descrição        :</string>
-    <string name="tag_unity"      >Unidade de medida:</string>
-    <string name="tag_unity_multiplier">Multiplicador    :</string>
-    <string name="custom_dialog_title">Exemption Sub Head</string>
+    <!-- DIALOG add COUNTER -->
+    <string name="custom_dialog_title">Novo contador</string>
+    <string name="tag_add_save">Save</string>
+    <string name="tag_add_cancel">Cancel</string>
+
+    <string name="tag_description">Descrição</string>
+    <string name="tag_unity"      >Unidade de medida</string>
+    <string name="tag_unity_multiplier">Multiplicador</string>
+    <string name="tag_color">Cor do contador</string>
+    <string name="tag_color_button">Selecione</string>
+    <string name="tag_click_act">Ação do click</string>
+    <string name="tag_counter">Contagem</string>
+
+    <string-array name="measure_unity">
+        <item>Unidade</item>
+        <item>Litros</item>
+        <item>Kilos</item>
+        <item>Metros</item>
+        <item>Horas</item>
+    </string-array>
+
+    <string-array name="measure_unity_alias">
+        <item></item>
+        <item>Lts</item>
+        <item>Kgs</item>
+        <item>Mts</item>
+        <item>Hrs</item>
+    </string-array>
+
+    <string-array name="unity_multiplier">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+    </string-array>
+
+    <string-array name="tag_color_array">
+        <item>#ffffff</item>
+        <item>#e53935</item>
+        <item>#e91e63</item>
+        <item>#9c27b0</item>
+        <item>#03a9f4</item>
+        <item>#8bc34a</item>
+        <item>#ffeb3b</item>
+        <item>#ff9800</item>
+        <item>#8d6e63</item>
+        <item>#78909c</item>
+    </string-array>
+
+    <string-array name="tag_color">
+        <item>Selecione</item>
+    </string-array>
+
+    <string-array name="counter_click_act">
+        <item>Contar</item>
+        <item>Editar</item>
+    </string-array>
+
+
 </resources>
