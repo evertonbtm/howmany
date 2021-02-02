@@ -35,6 +35,8 @@ import java.util.Arrays;
 import java.util.Collections;
 
 import br.com.btguth.howmany.adapter.DefaultListAdapter;
+import br.com.btguth.howmany.dao.CounterDAO;
+import br.com.btguth.howmany.model.Counter;
 import br.com.btguth.howmany.utils.DemoUtils;
 import petrov.kristiyan.colorpicker.ColorPicker;
 
@@ -176,12 +178,15 @@ public class MainActivity extends AppCompatActivity {
                 String nameStr = name.getText().toString().trim();
                 //String emailStr = email.getText().toString();
                 //String messageStr = message.getText().toString().trim();
+                CounterDAO dao = new CounterDAO(getApplicationContext());
+                Counter counter = new Counter();
+
 
             }
         });
         dialogBuilder.setNegativeButton(getResources().getText(R.string.tag_add_cancel), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
-                //pass
+
             }
         });
 
