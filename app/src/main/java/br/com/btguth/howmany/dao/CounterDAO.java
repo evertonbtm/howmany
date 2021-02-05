@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.btguth.howmany.model.Counter;
-import br.com.btguth.howmany.sqlite.DatabaseHandler;
+import br.com.btguth.howmany.sqlite.CounterDBHelper;
 
 public class CounterDAO {
     private Context context;
@@ -21,8 +21,8 @@ public class CounterDAO {
     private static final String TABLE_COUNTER = "counter";
 
     // code to add the new contact
-    void addContact(Counter counter) {
-        DatabaseHandler handler = new DatabaseHandler(this.context);
+    public void addCounter(Counter counter) {
+        CounterDBHelper handler = new CounterDBHelper(this.context);
         SQLiteDatabase db = handler.getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -42,7 +42,7 @@ public class CounterDAO {
 
     // code to get the single contact
     Counter getCounter(int id) {
-        DatabaseHandler handler = new DatabaseHandler(this.context);
+        CounterDBHelper handler = new CounterDBHelper(this.context);
         SQLiteDatabase db = handler.getWritableDatabase();
 
         Cursor cursor = db.query(TABLE_COUNTER,
@@ -67,10 +67,10 @@ public class CounterDAO {
             counter.setCounterName(cursor.getString(1));
             counter.setMeasureUnityName(cursor.getString(2));
             counter.setMeasureUnityAlias(cursor.getString(3));
-            counter.setMultiplier(cursor.getString(4));
+            counter.setMultiplier(cursor.getInt(4));
             counter.setCounterColor(cursor.getInt(5));
             counter.setClickAction(cursor.getString(6));
-            counter.setClickAction(cursor.getString(7));
+            counter.setCounterValue(cursor.getInt(7));
         }
 
         // return contact
@@ -78,12 +78,12 @@ public class CounterDAO {
     }
 
     // code to get all contacts in a list view
-    public List<Counter> getAllContacts() {
-        List<Counter> contactList = new ArrayList<Counter>();
+    public List<Counter> getAllCounters() {
+        List<Counter> counterList = new ArrayList<Counter>();
         // Select All Query
-        String selectQuery = "SELECT  * FROM " + TABLE_COUNTER;
+        String selectQuery = "SELECT * FROM " + TABLE_COUNTER;
 
-        DatabaseHandler handler = new DatabaseHandler(this.context);
+        CounterDBHelper handler = new CounterDBHelper(this.context);
         SQLiteDatabase db = handler.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
 
@@ -91,27 +91,27 @@ public class CounterDAO {
         if (cursor.moveToFirst()) {
             do {
                 Counter counter = new Counter();
-                counter.setIdCounter(Integer.parseInt(cursor.getString(0)));
+                counter.setIdCounter(cursor.getInt(0));
                 counter.setCounterName(cursor.getString(1));
                 counter.setMeasureUnityName(cursor.getString(2));
                 counter.setMeasureUnityAlias(cursor.getString(3));
-                counter.setMultiplier(cursor.getString(4));
+                counter.setMultiplier(cursor.getInt(4));
                 counter.setCounterColor(cursor.getInt(5));
                 counter.setClickAction(cursor.getString(6));
-                counter.setClickAction(cursor.getString(7));
+                counter.setCounterValue(cursor.getInt(7));
 
                 // Adding contact to list
-                contactList.add(counter);
+                counterList.add(counter);
             } while (cursor.moveToNext());
         }
 
         // return contact list
-        return contactList;
+        return counterList;
     }
 
     // code to update the single contact
-    public int updateContact(Counter counter) {
-        DatabaseHandler handler = new DatabaseHandler(this.context);
+    public int updateCounter(Counter counter) {
+        CounterDBHelper handler = new CounterDBHelper(this.context);
         SQLiteDatabase db = handler.getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -130,8 +130,8 @@ public class CounterDAO {
     }
 
     // Deleting single contact
-    public void deleteContact(Counter counter) {
-        DatabaseHandler handler = new DatabaseHandler(this.context);
+    public void deleteCounter(Counter counter) {
+        CounterDBHelper handler = new CounterDBHelper(this.context);
         SQLiteDatabase db = handler.getWritableDatabase();
 
         db.delete(TABLE_COUNTER, "idCounter" + " = ?",
@@ -140,10 +140,10 @@ public class CounterDAO {
     }
 
     // Getting contacts Count
-    public int getContactsCount() {
+    public int getContersCount() {
         String countQuery = "SELECT  * FROM " + TABLE_COUNTER;
 
-        DatabaseHandler handler = new DatabaseHandler(this.context);
+        CounterDBHelper handler = new CounterDBHelper(this.context);
         SQLiteDatabase db = handler.getWritableDatabase();
 
         Cursor cursor = db.rawQuery(countQuery, null);

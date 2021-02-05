@@ -95,7 +95,7 @@
                 android:layout_height="wrap_content">
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/addCounterMore"
+                android:id="@+id/addCounterMinus"
                 android:layout_width="40dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
@@ -103,7 +103,7 @@
                 android:textSize="20sp"
                 android:textColor="@color/black" />
             <EditText
-                android:id="@+id/addCounterEdit"
+                android:id="@+id/addCounterValueEdit"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:autofillHints="0"
@@ -115,7 +115,7 @@
                 android:textColorHint="?attr/colorAccent" />
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/addCounterMinus"
+                android:id="@+id/addCounterMore"
                 android:layout_width="40dp"
                 android:layout_gravity="end"
                 android:layout_height="wrap_content"

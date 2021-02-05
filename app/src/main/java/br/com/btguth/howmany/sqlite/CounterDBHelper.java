@@ -4,15 +4,15 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-public class DatabaseHandler extends SQLiteOpenHelper {
-    private static final int DATABASE_VERSION = 1;
+public class CounterDBHelper extends SQLiteOpenHelper {
+    private static final int DATABASE_VERSION = 2;
 
     private static final String DATABASE_NAME = "HowMany";
 
     private static final String TABLE_COUNTER = "counter";
 
 
-    public DatabaseHandler(Context context) {
+    public CounterDBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         //3rd argument to be passed is CursorFactory instance
     }
@@ -25,12 +25,12 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                     "("+
                         "idCounter INTEGER PRIMARY KEY AUTOINCREMENT,"+
                         "counterName TEXT,"+
-                        "unityName TEXT,"+
-                        "unityAlias TEXT,"+
-                        "multiplier TEXT,"+
+                        "measureUnityName TEXT,"+
+                        "measureUnityAlias TEXT,"+
+                        "multiplier INTEGER,"+
                         "counterColor INTEGER,"+
-                        "clickAction,"+
-                        "counterValue"+
+                        "clickAction TEXT,"+
+                        "counterValue INTEGER"+
                     ")";
 
         db.execSQL(CREATE_COUNTER_TABLE);

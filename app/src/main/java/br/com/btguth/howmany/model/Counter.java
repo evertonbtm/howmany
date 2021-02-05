@@ -6,10 +6,10 @@ public class Counter {
     String counterName;
     String measureUnityName;
     String measureUnityAlias;
-    String multiplier;
+    Integer multiplier;
     Integer counterColor;
     String clickAction;
-    String counterValue;
+    Integer counterValue;
 
     public Counter(){
 
@@ -28,7 +28,7 @@ public class Counter {
     }
 
     public void setCounterName(String counterName) {
-        counterName = counterName;
+        this.counterName = counterName;
     }
 
     public String getMeasureUnityName() {
@@ -36,7 +36,7 @@ public class Counter {
     }
 
     public void setMeasureUnityName(String measureUnityName) {
-        measureUnityName = measureUnityName;
+        this.measureUnityName = measureUnityName;
     }
 
     public String getMeasureUnityAlias() {
@@ -44,14 +44,14 @@ public class Counter {
     }
 
     public void setMeasureUnityAlias(String measureUnityAlias) {
-        measureUnityAlias = measureUnityAlias;
+        this.measureUnityAlias = measureUnityAlias;
     }
 
-    public String getMultiplier() {
+    public Integer getMultiplier() {
         return multiplier;
     }
 
-    public void setMultiplier(String multiplier) {
+    public void setMultiplier(Integer multiplier) {
         this.multiplier = multiplier;
     }
 
@@ -71,11 +71,11 @@ public class Counter {
         this.clickAction = clickAction;
     }
 
-    public String getCounterValue() {
+    public Integer getCounterValue() {
         return counterValue;
     }
 
-    public void setCounterValue(String counterValue) {
+    public void setCounterValue(Integer counterValue) {
         this.counterValue = counterValue;
     }
 }

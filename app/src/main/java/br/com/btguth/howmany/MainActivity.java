@@ -3,6 +3,8 @@ package br.com.btguth.howmany;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.res.Resources;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -30,6 +32,7 @@ import android.widget.ListAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -54,15 +57,7 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        listView = (AsymmetricGridView) findViewById(R.id.listView);
-        adapter = new DefaultListAdapter(this, demoUtils.createList(7));
-
-        listView.setRequestedColumnCount(3);
-        listView.setRequestedHorizontalSpacing(Utils.dpToPx(this, 3));
-        listView.setDebugging(true);
-        listView.setAllowReordering(true);
-        listView.setAdapter(getNewAdapter());
-        listView.setOnItemClickListener(this::onItemClick);
+        initialize();
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -76,6 +71,20 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    public void initialize(){
+        listView = (AsymmetricGridView) findViewById(R.id.listView);
+        CounterDAO dao = new CounterDAO(this);
+        adapter = new DefaultListAdapter(this, demoUtils.createList(dao.getAllCounters()));
+
+        listView.setRequestedColumnCount(3);
+        listView.setRequestedHorizontalSpacing(Utils.dpToPx(this, 3));
+        //listView.setDebugging(true);
+        listView.setAllowReordering(true);
+        listView.setAdapter(getNewAdapter());
+        listView.setOnItemClickListener(this::onItemClick);
+
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
@@ -129,6 +138,7 @@ public class MainActivity extends AppCompatActivity {
         final View dialogTitle = inflater.inflate(R.layout.dialog_counter_title, null);
         dialogBuilder.setView(dialogBody);
         dialogBuilder.setCustomTitle(dialogTitle);
+        dialogBuilder.setCancelable(false);
 
         final EditText name = (EditText) dialogBody.findViewById(R.id.addTagEdit);
 
@@ -168,30 +178,94 @@ public class MainActivity extends AppCompatActivity {
         clickAction.setAdapter(new ArrayAdapter(this,
                 android.R.layout.simple_spinner_item, getResources().getStringArray(R.array.counter_click_act)));
 
-        //final EditText email = (EditText) dialogBody.findViewById(R.id.customEmail);
+        Button addMore = (Button)  dialogBody.findViewById(R.id.addCounterMore);
+        Button addMinus = (Button)  dialogBody.findViewById(R.id.addCounterMinus);
+        EditText counterValue = (EditText)  dialogBody.findViewById(R.id.addCounterValueEdit);
+
+        addMore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                BigDecimal value  = new BigDecimal(counterValue.getText().toString());
+                counterValue.setText(String.valueOf(value.add(new BigDecimal(1))));
+            }
+        });
+
+        addMinus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                BigDecimal value  = new BigDecimal(counterValue.getText().toString());
+                BigDecimal result = value.subtract(new BigDecimal(1));
+                counterValue.setText(result.compareTo(new BigDecimal(0)) <= 0 ? "0" : result.toString());
+            }
+        });
+                //final EditText email = (EditText) dialogBody.findViewById(R.id.customEmail);
         //final EditText message = (EditText) dialogBody.findViewById(R.id.customFeedback);
 
         //dialogBuilder.setTitle("Send FeedBack");
         //dialogBuilder.setMessage("please send me to your feedback.");
+        final Boolean  wantToCloseDialog = false;
         dialogBuilder.setPositiveButton(getResources().getText(R.string.tag_add_save), new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int whichButton) {
-                String nameStr = name.getText().toString().trim();
-                //String emailStr = email.getText().toString();
-                //String messageStr = message.getText().toString().trim();
-                CounterDAO dao = new CounterDAO(getApplicationContext());
-                Counter counter = new Counter();
-
-
-            }
+            public void onClick(DialogInterface dialog, int whichButton) { }
         });
+
         dialogBuilder.setNegativeButton(getResources().getText(R.string.tag_add_cancel), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
 
             }
         });
 
-        AlertDialog b = dialogBuilder.create();
-        b.show();
+        AlertDialog alertDialog = dialogBuilder.create();
+        alertDialog.setCancelable(false);
+        alertDialog.show();
+
+        alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener()
+        {
+            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+            @Override
+            public void onClick(View v)
+            {
+                Boolean wantToCloseDialog = false;
+
+                if (name.getText().toString().trim().length() == 0) {
+                    name.setError(getResources().getText(R.string.tag_description_validator));
+                } else {
+                    String counterName = name.getText().toString();
+                    String measureUnityName = unityType.getSelectedItem().toString();
+                    String[] unityAliasArray = getResources().getStringArray(R.array.measure_unity_alias);
+                    String measureUnityAlias = unityAliasArray[unityType.getSelectedItemPosition()];
+                    Integer multiplier = Integer.valueOf(unityTypeMult.getSelectedItem().toString());
+
+                    Drawable bg =  tagColor.getBackground();
+                    Integer counterColor = 0;
+                    if (bg instanceof ColorDrawable){
+                        counterColor = ((ColorDrawable) bg).getColor();
+                    }
+                    String click = clickAction.getSelectedItem().toString();
+                    Integer value = Integer.valueOf(counterValue.getText().toString());
+
+
+                    CounterDAO dao = new CounterDAO(getApplicationContext());
+                    Counter counter = new Counter();
+                    counter.setCounterName(counterName);
+                    counter.setMeasureUnityName(measureUnityName);
+                    counter.setMeasureUnityAlias(measureUnityAlias);
+                    counter.setMultiplier(multiplier);
+                    counter.setCounterColor(counterColor);
+                    counter.setClickAction(click);
+                    counter.setCounterValue(value);
+                    dao.addCounter(counter);
+
+
+                    wantToCloseDialog = true;
+                }
+
+                if(wantToCloseDialog)
+                    initialize();
+                    alertDialog.dismiss();
+                //else dialog stays open. Make sure you have an obvious way to close the dialog especially if you set cancellable to false.
+            }
+        });
+
     }
 
 }
