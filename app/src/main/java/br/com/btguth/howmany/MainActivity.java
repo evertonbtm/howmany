@@ -163,9 +163,12 @@ public class MainActivity extends AppCompatActivity {
         dialogBuilder.setCustomTitle(dialogTitle);
         dialogBuilder.setCancelable(false);
 
+        final Button delete = (Button) dialogTitle.findViewById(R.id.counterDeleteButton);
+
         final EditText name = (EditText) dialogBody.findViewById(R.id.addTagEdit);
         if(counter != null && counter.getCounterName() != null) {
             name.setText(counter.getCounterName());
+            delete.setVisibility(View.VISIBLE);
         }
 
         final Spinner unityType = (Spinner) dialogBody.findViewById(R.id.addUnityTypeSpinner);
@@ -326,6 +329,16 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        delete.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+            @Override
+            public void onClick(View v) {
+                delete(counter);
+                alertDialog.dismiss();
+                initialize();
+            }
+        });
+
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -344,5 +357,10 @@ public class MainActivity extends AppCompatActivity {
 
         listView.setAdapter(getNewAdapter());
 
+    }
+
+    public void delete(Counter counter){
+        CounterDAO dao = new CounterDAO(getApplicationContext());
+        dao.deleteCounter(counter);
     }
 }
