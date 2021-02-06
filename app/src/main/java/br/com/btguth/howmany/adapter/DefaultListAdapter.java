@@ -46,9 +46,11 @@ public class DefaultListAdapter extends ArrayAdapter<BaseItem> implements BasicA
 
     TextView tag = (TextView) v.findViewById(R.id.counter_tag);
     TextView value = (TextView) v.findViewById(R.id.counter_value);
+    TextView unity_alias = (TextView) v.findViewById(R.id.counter_unity_alias);
 
-    tag.setText(String.valueOf(item.getCounterTag()));
-    value.setText(String.valueOf(item.getCounterValue()));
+    tag.setText(String.valueOf(item.getCounter().getCounterName()));
+    value.setText(String.valueOf(item.getCounter().getCounterValue()));
+    unity_alias.setText(item.getCounter().getMeasureUnityAlias());
 
     return v;
   }

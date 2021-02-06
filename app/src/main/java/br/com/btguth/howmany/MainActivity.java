@@ -39,6 +39,7 @@ import java.util.Collections;
 
 import br.com.btguth.howmany.adapter.DefaultListAdapter;
 import br.com.btguth.howmany.dao.CounterDAO;
+import br.com.btguth.howmany.model.BaseItem;
 import br.com.btguth.howmany.model.Counter;
 import br.com.btguth.howmany.utils.DemoUtils;
 import petrov.kristiyan.colorpicker.ColorPicker;
@@ -63,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                addCounter();
+                addCounter(null);
                 listView.onSaveInstanceState();
             }
         });
@@ -80,9 +81,10 @@ public class MainActivity extends AppCompatActivity {
         listView.setRequestedColumnCount(3);
         listView.setRequestedHorizontalSpacing(Utils.dpToPx(this, 3));
         //listView.setDebugging(true);
-        listView.setAllowReordering(true);
+        listView.setAllowReordering(false);
         listView.setAdapter(getNewAdapter());
         listView.setOnItemClickListener(this::onItemClick);
+        listView.setOnItemLongClickListener(this::onItemLongClick);
 
     }
     @Override
@@ -125,12 +127,33 @@ public class MainActivity extends AppCompatActivity {
         listView.setAdapter(getNewAdapter());
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void onItemClick(@NonNull AdapterView<?> parent, @NonNull View view,
                             int position, long id) {
-        Toast.makeText(this, "Item " + position + " clicked", Toast.LENGTH_SHORT).show();
+
+        Counter counter = ((BaseItem) adapter.getItem(position)).getCounter();
+
+        String[] arrayClick = getResources().getStringArray(R.array.counter_click_act);
+        for(int i=0;i <arrayClick.length;i++){
+            if(arrayClick[i].equals(counter.getClickAction())){
+                if(i==1){
+                    addCounter(counter);
+                }else{
+                    increment(counter);
+                }
+            }
+        }
+        //Toast.makeText(this, "Item " + position + " clicked", Toast.LENGTH_SHORT).show();
     }
 
-    private void addCounter() {
+    public Boolean onItemLongClick(@NonNull AdapterView<?> parent, @NonNull View view,
+                            int position, long id) {
+        //Toast.makeText(this, "Item " + position + " clicked", Toast.LENGTH_SHORT).show();
+        addCounter(((BaseItem) adapter.getItem(position)).getCounter());
+        return false;
+    }
+
+    private void addCounter(Counter counter) {
 
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
         LayoutInflater inflater = this.getLayoutInflater();
@@ -141,15 +164,34 @@ public class MainActivity extends AppCompatActivity {
         dialogBuilder.setCancelable(false);
 
         final EditText name = (EditText) dialogBody.findViewById(R.id.addTagEdit);
+        if(counter != null && counter.getCounterName() != null) {
+            name.setText(counter.getCounterName());
+        }
 
         final Spinner unityType = (Spinner) dialogBody.findViewById(R.id.addUnityTypeSpinner);
         unityType.setAdapter(new ArrayAdapter(this,
                 android.R.layout.simple_spinner_item, getResources().getStringArray(R.array.measure_unity)));
+        if(counter != null && counter.getMeasureUnityName() != null){
+            String[] arrayUnity = getResources().getStringArray(R.array.measure_unity);
+            for(int i=0;i <arrayUnity.length;i++){
+                if(arrayUnity[i].equals(counter.getMeasureUnityName())){
+                    unityType.setSelection(i);
+                }
+            }
+        }
 
         final Spinner unityTypeMult = (Spinner) dialogBody.findViewById(R.id.addUnityMultSpinner);
         unityTypeMult.setAdapter(new ArrayAdapter(this,
                 android.R.layout.simple_spinner_item, getResources().getStringArray(R.array.unity_multiplier)));
 
+        if(counter != null && counter.getMultiplier() != null){
+            String[] arrayMult = getResources().getStringArray(R.array.unity_multiplier);
+            for(int i=0;i <arrayMult.length;i++){
+                if(arrayMult[i].equals(counter.getMultiplier().toString())){
+                    unityTypeMult.setSelection(i);
+                }
+            }
+        }
         ArrayList<String> colorArray = new ArrayList<String>();
         Collections.addAll(colorArray, getResources().getStringArray(R.array.tag_color_array));
         Button tagColor = (Button)  dialogBody.findViewById(R.id.addCounterColorButton);
@@ -174,36 +216,51 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        if(counter != null && counter.getCounterColor() != null){
+            tagColor.setBackgroundColor(counter.getCounterColor());
+        }
+
         final Spinner clickAction = (Spinner) dialogBody.findViewById(R.id.addClickActSpinner);
         clickAction.setAdapter(new ArrayAdapter(this,
                 android.R.layout.simple_spinner_item, getResources().getStringArray(R.array.counter_click_act)));
+
+        if(counter != null && counter.getClickAction() != null){
+            String[] arrayClick = getResources().getStringArray(R.array.counter_click_act);
+            for(int i=0;i <arrayClick.length;i++){
+                if(arrayClick[i].equals(counter.getClickAction())){
+                    clickAction.setSelection(i);
+                }
+            }
+        }
 
         Button addMore = (Button)  dialogBody.findViewById(R.id.addCounterMore);
         Button addMinus = (Button)  dialogBody.findViewById(R.id.addCounterMinus);
         EditText counterValue = (EditText)  dialogBody.findViewById(R.id.addCounterValueEdit);
 
+        if(counter != null && counter.getCounterValue() != null){
+            counterValue.setText(counter.getCounterValue().toString());
+        }
+
         addMore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Integer multiplier = Integer.valueOf(unityTypeMult.getSelectedItem().toString());
                 BigDecimal value  = new BigDecimal(counterValue.getText().toString());
-                counterValue.setText(String.valueOf(value.add(new BigDecimal(1))));
+
+                counterValue.setText(String.valueOf(value.add(new BigDecimal(1).multiply(new BigDecimal(multiplier)))));
             }
         });
 
         addMinus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Integer multiplier = Integer.valueOf(unityTypeMult.getSelectedItem().toString());
                 BigDecimal value  = new BigDecimal(counterValue.getText().toString());
-                BigDecimal result = value.subtract(new BigDecimal(1));
+                BigDecimal result = value.subtract(new BigDecimal(1).multiply(new BigDecimal(multiplier)));
                 counterValue.setText(result.compareTo(new BigDecimal(0)) <= 0 ? "0" : result.toString());
             }
         });
-                //final EditText email = (EditText) dialogBody.findViewById(R.id.customEmail);
-        //final EditText message = (EditText) dialogBody.findViewById(R.id.customFeedback);
 
-        //dialogBuilder.setTitle("Send FeedBack");
-        //dialogBuilder.setMessage("please send me to your feedback.");
-        final Boolean  wantToCloseDialog = false;
         dialogBuilder.setPositiveButton(getResources().getText(R.string.tag_add_save), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) { }
         });
@@ -245,17 +302,20 @@ public class MainActivity extends AppCompatActivity {
 
 
                     CounterDAO dao = new CounterDAO(getApplicationContext());
-                    Counter counter = new Counter();
-                    counter.setCounterName(counterName);
-                    counter.setMeasureUnityName(measureUnityName);
-                    counter.setMeasureUnityAlias(measureUnityAlias);
-                    counter.setMultiplier(multiplier);
-                    counter.setCounterColor(counterColor);
-                    counter.setClickAction(click);
-                    counter.setCounterValue(value);
-                    dao.addCounter(counter);
-
-
+                    Counter counterNew = new Counter();
+                    counterNew.setCounterName(counterName);
+                    counterNew.setMeasureUnityName(measureUnityName);
+                    counterNew.setMeasureUnityAlias(measureUnityAlias);
+                    counterNew.setMultiplier(multiplier);
+                    counterNew.setCounterColor(counterColor);
+                    counterNew.setClickAction(click);
+                    counterNew.setCounterValue(value);
+                    if(counter != null){
+                        counterNew.setIdCounter(counter.getIdCounter());
+                        dao.updateCounter(counterNew);
+                    }else{
+                        dao.addCounter(counterNew);
+                    }
                     wantToCloseDialog = true;
                 }
 
@@ -268,4 +328,21 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    public void increment(Counter counter){
+        BigDecimal multiplier = new BigDecimal(1);
+        String[] arrayMult = getResources().getStringArray(R.array.unity_multiplier);
+        for(int i=0;i <arrayMult.length;i++){
+            if(arrayMult[i].equals(counter.getMultiplier().toString())){
+                multiplier = new BigDecimal(arrayMult[i]);
+            }
+        }
+        CounterDAO dao = new CounterDAO(getApplicationContext());
+        BigDecimal result = (new BigDecimal(counter.getCounterValue()).add(new BigDecimal(1).multiply(multiplier)));
+        counter.setCounterValue(result.intValue());
+        dao.updateCounter(counter);
+
+        listView.setAdapter(getNewAdapter());
+
+    }
 }

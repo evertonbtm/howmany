@@ -1,8 +1,10 @@
 package br.com.btguth.howmany.model;
 
+import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 
 
 import com.felipecsl.asymmetricgridview.AsymmetricItem;
@@ -13,21 +15,20 @@ public class BaseItem implements AsymmetricItem {
   private int columnSpan;
   private int rowSpan;
   private int position;
-  private String counter_tag;
-  private Integer counter_value;
+  private Counter counter;
 
   public BaseItem() {
-    this(1, 1, 0,"Sample",1);
+    this(1, 1, 0,null);
   }
 
-  public BaseItem(int columnSpan, int rowSpan, int position,String counter_tag,int counter_value) {
+  public BaseItem(int columnSpan, int rowSpan, int position,Counter counter) {
     this.columnSpan = columnSpan;
     this.rowSpan = rowSpan;
     this.position = position;
-    this.counter_tag = counter_tag;
-    this.counter_value = counter_value;
+    this.counter = counter;
   }
 
+  @RequiresApi(api = Build.VERSION_CODES.M)
   public BaseItem(Parcel in) {
     readFromParcel(in);
   }
@@ -40,12 +41,8 @@ public class BaseItem implements AsymmetricItem {
     return rowSpan;
   }
 
-  public String getCounterTag() {
-    return counter_tag;
-  }
-
-  public Integer getCounterValue() {
-    return counter_value;
+  public Counter getCounter() {
+    return counter;
   }
 
   public int getPosition() {
@@ -53,27 +50,26 @@ public class BaseItem implements AsymmetricItem {
   }
 
   @Override public String toString() {
-    return String.format("%s: %sx%s%s%s", position, rowSpan, columnSpan,counter_tag,counter_value);
+    return String.format("%s: %sx%s%s", position, rowSpan, columnSpan,counter);
   }
 
   @Override public int describeContents() {
     return 0;
   }
 
+  @RequiresApi(api = Build.VERSION_CODES.M)
   private void readFromParcel(Parcel in) {
     columnSpan = in.readInt();
     rowSpan = in.readInt();
     position = in.readInt();
-    counter_tag = in.readString();
-    counter_value = in.readInt();
+    counter = (Counter) in.readValue(Counter.class.getClassLoader());
   }
 
   @Override public void writeToParcel(@NonNull Parcel dest, int flags) {
     dest.writeInt(columnSpan);
     dest.writeInt(rowSpan);
     dest.writeInt(position);
-    dest.writeString(counter_tag);
-    dest.writeInt(counter_value);
+    dest.writeValue(counter);
   }
 
   /* Parcelable interface implementation */

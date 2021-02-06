@@ -20,12 +20,12 @@ public class DemoUtils {
 
     int position = 0;
     for(Counter item : list){
-      items.add(new BaseItem(1, 1, position, item.getCounterName(), item.getCounterValue()));
+      items.add(new BaseItem(1, 1, position, item));
       position++;
     }
     Collections.sort(items, new Comparator<BaseItem>(){
       public int compare(BaseItem b1, BaseItem b2) {
-        return b1.getCounterValue().compareTo(b2.getCounterValue());
+        return b1.getCounter().getCounterValue().compareTo(b2.getCounter().getCounterValue());
       }
     });
 

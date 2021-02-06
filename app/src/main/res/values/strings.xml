@@ -3,7 +3,7 @@
     <!-- APP names & bars -->
     <string name="app_name">HowMany</string>
     <string name="action_settings">Settings</string>
-
+    <string name="action_list">Listagem</string>
 
     <!-- DIALOG add COUNTER -->
     <string name="custom_dialog_title">Novo contador</string>
@@ -13,7 +13,7 @@
     <string name="tag_description">Descrição</string>
     <string name="tag_description_validator">É necessario preencher a descrição.</string>
     <string name="tag_unity"      >Unidade de medida</string>
-    <string name="tag_unity_multiplier">Multiplicador</string>
+    <string name="tag_unity_multiplier">Incremento</string>
     <string name="tag_color">Cor do contador</string>
     <string name="tag_color_button">Selecione</string>
     <string name="tag_click_act">Ação do click</string>

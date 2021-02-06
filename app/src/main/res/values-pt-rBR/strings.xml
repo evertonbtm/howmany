@@ -3,6 +3,7 @@
     <!-- APP names & bars -->
     <string name="app_name">HowMany</string>
     <string name="action_settings">Settings</string>
+    <string name="action_list">Listagem</string>
 
 
     <!-- DIALOG add COUNTER -->
