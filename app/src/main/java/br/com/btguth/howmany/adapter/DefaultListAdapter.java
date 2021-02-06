@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import br.com.btguth.howmany.R;
 import androidx.annotation.NonNull;
@@ -51,6 +52,23 @@ public class DefaultListAdapter extends ArrayAdapter<BaseItem> implements BasicA
     tag.setText(String.valueOf(item.getCounter().getCounterName()));
     value.setText(String.valueOf(item.getCounter().getCounterValue()));
     unity_alias.setText(item.getCounter().getMeasureUnityAlias());
+
+    switch (item.getColumnSpan()){
+      case 2:
+        tag.setTextSize(24);
+        value.setTextSize(20);
+        unity_alias.setTextSize(18);
+        break;
+      case 3:
+        tag.setTextSize(30);
+        value.setTextSize(28);
+        unity_alias.setTextSize(24);
+        break;
+      default:
+        tag.setTextSize(16);
+        value.setTextSize(14);
+        unity_alias.setTextSize(12);
+    }
 
     return v;
   }

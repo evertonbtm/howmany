@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
         listView.setRequestedColumnCount(3);
         listView.setRequestedHorizontalSpacing(Utils.dpToPx(this, 3));
         //listView.setDebugging(true);
-        listView.setAllowReordering(false);
+        listView.setAllowReordering(true);
         listView.setAdapter(getNewAdapter());
         listView.setOnItemClickListener(this::onItemClick);
         listView.setOnItemLongClickListener(this::onItemLongClick);

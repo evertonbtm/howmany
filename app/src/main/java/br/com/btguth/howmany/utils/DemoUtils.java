@@ -19,28 +19,39 @@ public class DemoUtils {
     BaseItem  bi = null;
 
     int position = 0;
-    for(Counter item : list){
-      items.add(new BaseItem(1, 1, position, item));
-      position++;
-    }
+    int size = list.size();
+    int max = getMax(list);
+
     Collections.sort(items, new Comparator<BaseItem>(){
       public int compare(BaseItem b1, BaseItem b2) {
         return b1.getCounter().getCounterValue().compareTo(b2.getCounter().getCounterValue());
       }
     });
 
-    /*
-    for (int i = 0; i < items.size(); i++) {
-      int colSpan = Math.random()  < 0.2f ? 2 : 1;
-
-      int rowSpan = colSpan;
-      BaseItem item = new BaseItem(colSpan, rowSpan, i,);
-
-      items.add(item);
+    for(Counter item : list){
+      int columnSpan = 1;
+      int rowSpan = 1;
+      if(max == item.getCounterValue()){
+        columnSpan = 2;
+        rowSpan = 2;
+      }
+      items.add(new BaseItem(columnSpan, rowSpan, position, item));
+      position++;
     }
 
-    currentOffset += qty; */
 
     return items;
+  }
+
+  public int getMax(List<Counter> list){
+    int max = Integer.MIN_VALUE;
+    Counter maxCounter = new Counter();
+    for(int i=0; i<list.size(); i++){
+      if(list.get(i).getCounterValue() > max){
+        max = list.get(i).getCounterValue();
+        maxCounter = list.get(i);
+      }
+    }
+    return max;
   }
 }
