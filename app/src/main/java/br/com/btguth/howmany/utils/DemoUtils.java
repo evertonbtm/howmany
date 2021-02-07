@@ -24,7 +24,7 @@ public class DemoUtils {
 
     Collections.sort(items, new Comparator<BaseItem>(){
       public int compare(BaseItem b1, BaseItem b2) {
-        return b1.getCounter().getCounterValue().compareTo(b2.getCounter().getCounterValue());
+        return b2.getCounter().getCounterValue().compareTo(b1.getCounter().getCounterValue());
       }
     });
 

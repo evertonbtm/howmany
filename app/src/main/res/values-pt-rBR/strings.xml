@@ -25,7 +25,9 @@
         <item>Litros</item>
         <item>Kilos</item>
         <item>Metros</item>
+        <item>Kilometros</item>
         <item>Horas</item>
+        <item>Dias</item>
     </string-array>
 
     <string-array name="measure_unity_alias">
@@ -33,7 +35,9 @@
         <item>Lts</item>
         <item>Kgs</item>
         <item>Mts</item>
+        <item>Kms</item>
         <item>Hrs</item>
+        <item>Dias</item>
     </string-array>
 
     <string-array name="unity_multiplier">

@@ -1,6 +1,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/layout"
-    android:background="@drawable/text_view_background_selector_odd"
+    android:background="@drawable/card_background_selector_odd"
     android:gravity="center"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
