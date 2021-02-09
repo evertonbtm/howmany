@@ -44,19 +44,10 @@ public class DefaultListAdapter extends ArrayAdapter<BaseItem> implements BasicA
   @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
   @Override
   public View getView(int position, View convertView, @NonNull ViewGroup parent) {
-    View v;
 
     BaseItem item = getItem(position);
-    //boolean isRegular = getItemViewType(position) == 0;
 
-    /*if (convertView == null) {
-      v = layoutInflater.inflate(
-          isRegular ? R.layout.adapter_item : R.layout.adapter_item_odd, parent, false);
-    } else {
-      v = convertView;
-    }*/
-
-    v = layoutInflater.inflate(R.layout.adapter_item , parent, false);
+    View v = layoutInflater.inflate(R.layout.adapter_item , parent, false);
 
     RelativeLayout layout = v.findViewById(R.id.layout);
     TextView tag = (TextView) v.findViewById(R.id.counter_tag);
@@ -69,21 +60,24 @@ public class DefaultListAdapter extends ArrayAdapter<BaseItem> implements BasicA
 
     switch (item.getColumnSpan()){
       case 2:
-        tag.setTextSize(24);
-        value.setTextSize(20);
+        tag.setTextSize(28);
+        value.setTextSize(22);
         unity_alias.setTextSize(18);
         break;
       case 3:
-        tag.setTextSize(30);
+        tag.setTextSize(36);
         value.setTextSize(26);
         unity_alias.setTextSize(24);
         break;
       default:
-        tag.setTextSize(16);
+        tag.setTextSize(18);
         value.setTextSize(14);
         unity_alias.setTextSize(12);
     }
 
+    if(item.getCounter().getCounterColor() == null || item.getCounter().getCounterColor() ==0){
+      item.getCounter().setCounterColor(-1);
+    }
     changeBackground(layout,item.getCounter().getCounterColor());
     return v;
   }

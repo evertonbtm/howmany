@@ -2,7 +2,6 @@ package br.com.btguth.howmany;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.res.Resources;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
@@ -19,6 +18,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -30,25 +30,25 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
+import java.util.logging.Logger;
 
 import br.com.btguth.howmany.adapter.DefaultListAdapter;
 import br.com.btguth.howmany.dao.CounterDAO;
 import br.com.btguth.howmany.model.BaseItem;
 import br.com.btguth.howmany.model.Counter;
-import br.com.btguth.howmany.utils.DemoUtils;
+import br.com.btguth.howmany.utils.ArrayGenUtils;
+import br.com.btguth.howmany.utils.ScreenUtils;
 import petrov.kristiyan.colorpicker.ColorPicker;
 
 
 public class MainActivity extends AppCompatActivity {
     private AsymmetricGridView listView;
-    private ListAdapter adapter;
-    private final DemoUtils demoUtils = new DemoUtils();
+    private DefaultListAdapter adapter;
+    private final ArrayGenUtils demoUtils = new ArrayGenUtils();
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
@@ -77,9 +77,12 @@ public class MainActivity extends AppCompatActivity {
         listView = (AsymmetricGridView) findViewById(R.id.listView);
         CounterDAO dao = new CounterDAO(this);
         adapter = new DefaultListAdapter(this, demoUtils.createList(dao.getAllCounters()));
+        ScreenUtils scr = new ScreenUtils(this);
 
-        listView.setRequestedColumnCount(3);
-        listView.setRequestedHorizontalSpacing(Utils.dpToPx(this, 3));
+        Log.d("howmany","Screen Density "+scr.getDensityName());
+        listView.setRequestedColumnCount(scr.getBetterColumnCount());
+        //listView.setRequestedHorizontalSpacing(Utils.dpToPx(this, 3));
+        //listView.setRequestedColumnWidth(Utils.dpToPx(this, 85));
         //listView.setDebugging(true);
         listView.setAllowReordering(true);
         listView.setAdapter(getNewAdapter());
@@ -296,7 +299,7 @@ public class MainActivity extends AppCompatActivity {
                     Integer multiplier = Integer.valueOf(unityTypeMult.getSelectedItem().toString());
 
                     Drawable bg =  tagColor.getBackground();
-                    Integer counterColor = 0;
+                    Integer counterColor = -1;
                     if (bg instanceof ColorDrawable){
                         counterColor = ((ColorDrawable) bg).getColor();
                     }

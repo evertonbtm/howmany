@@ -2,5 +2,6 @@
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="card_element_margin">10dp</dimen>
     <dimen name="universal_padding">10dp</dimen>
+    <dimen name="universal_smaller_padd">5dp</dimen>
     <dimen name="universal_margin">10dp</dimen>
 </resources>

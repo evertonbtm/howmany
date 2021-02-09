@@ -1,15 +1,10 @@
 package br.com.btguth.howmany.model;
 
-import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
-
-
 import com.felipecsl.asymmetricgridview.AsymmetricItem;
 
-import java.util.Comparator;
 
 public class BaseItem implements AsymmetricItem {
   private int columnSpan;
@@ -18,7 +13,7 @@ public class BaseItem implements AsymmetricItem {
   private Counter counter;
 
   public BaseItem() {
-    this(1, 1, 0,null);
+    this(1, 1, 0, new Counter());
   }
 
   public BaseItem(int columnSpan, int rowSpan, int position,Counter counter) {
@@ -28,7 +23,6 @@ public class BaseItem implements AsymmetricItem {
     this.counter = counter;
   }
 
-  @RequiresApi(api = Build.VERSION_CODES.M)
   public BaseItem(Parcel in) {
     readFromParcel(in);
   }
@@ -57,7 +51,6 @@ public class BaseItem implements AsymmetricItem {
     return 0;
   }
 
-  @RequiresApi(api = Build.VERSION_CODES.M)
   private void readFromParcel(Parcel in) {
     columnSpan = in.readInt();
     rowSpan = in.readInt();

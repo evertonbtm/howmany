@@ -4,44 +4,52 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_margin="@dimen/universal_margin"
+    android:padding="@dimen/universal_padding"
     android:orientation="vertical">
 
     <TableLayout
         android:layout_marginTop="40dip"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/universal_margin"
         tools:ignore="MissingConstraints">
 
-    <TableRow>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/tag_description"/>
+    <TableRow
+        android:paddingTop="@dimen/universal_smaller_padd"
+        android:paddingBottom="@dimen/universal_smaller_padd">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/tag_description"/>
 
         <EditText
             android:id="@+id/addTagEdit"
-            android:layout_width="200dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:autofillHints=""
             android:inputType="text"
-            android:padding="@dimen/universal_padding"
             android:textColorHint="?attr/colorAccent" />
       </TableRow>
-      <TableRow>
+        <TableRow
+            android:paddingTop="@dimen/universal_smaller_padd"
+            android:paddingBottom="@dimen/universal_smaller_padd">
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/tag_unity"/>
             <Spinner
                 android:id="@+id/addUnityTypeSpinner"
                 android:layout_width="match_parent"
+
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/universal_padding"
                 android:textColorHint="?attr/colorAccent"
                 android:spinnerMode="dropdown"/>
         </TableRow>
-        <TableRow>
+        <TableRow
+            android:paddingTop="@dimen/universal_smaller_padd"
+            android:paddingBottom="@dimen/universal_smaller_padd">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -50,12 +58,14 @@
                 android:id="@+id/addUnityMultSpinner"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/universal_padding"
+                android:layout_weight="1"
                 android:textColorHint="?attr/colorAccent"
                 android:spinnerMode="dropdown"/>
         </TableRow>
 
-        <TableRow>
+        <TableRow
+            android:paddingTop="@dimen/universal_smaller_padd"
+            android:paddingBottom="@dimen/universal_smaller_padd">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -63,12 +73,15 @@
              <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/addCounterColorButton"
                 android:layout_width="match_parent"
+                 android:layout_weight="1"
                 android:layout_height="40dp"
                  android:text="@string/tag_color_button"
                  android:textColor="@color/black"
                  android:background="@drawable/tag_color_selector"/>
         </TableRow>
-        <TableRow>
+        <TableRow
+            android:paddingTop="@dimen/universal_smaller_padd"
+            android:paddingBottom="@dimen/universal_smaller_padd">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -77,12 +90,14 @@
                 android:id="@+id/addClickActSpinner"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/universal_padding"
+                android:layout_weight="1"
                 android:textColorHint="?attr/colorAccent"
                 android:spinnerMode="dropdown"/>
         </TableRow>
 
-        <TableRow>
+        <TableRow
+            android:paddingTop="@dimen/universal_padding"
+            android:paddingBottom="@dimen/universal_padding">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -92,11 +107,12 @@
 
             <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/addCounterMinus"
-                android:layout_width="40dp"
+                android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
                 android:text="-"
@@ -104,7 +120,7 @@
                 android:textColor="@color/black" />
             <EditText
                 android:id="@+id/addCounterValueEdit"
-                android:layout_width="100dp"
+                android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:autofillHints="0"
                 android:text="0"
@@ -116,7 +132,7 @@
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/addCounterMore"
-                android:layout_width="40dp"
+                android:layout_width="50dp"
                 android:layout_gravity="end"
                 android:layout_height="wrap_content"
                 android:text="+"
