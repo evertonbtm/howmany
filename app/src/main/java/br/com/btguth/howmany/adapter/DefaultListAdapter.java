@@ -102,7 +102,6 @@ public class DefaultListAdapter extends ArrayAdapter<BaseItem> implements BasicA
     appendItems(moreItems);
   }
 
-  @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
   private void changeBackground(RelativeLayout v , Integer color){
 
     StateListDrawable selector = (StateListDrawable) v.getBackground();
@@ -113,8 +112,15 @@ public class DefaultListAdapter extends ArrayAdapter<BaseItem> implements BasicA
     LayerDrawable card = (LayerDrawable) children[1];
     Drawable back = card.getDrawable(1);
     Drawable back_pressed = card_pressed.getDrawable(1);
-    back.setTint(color);
-    back_pressed.setTint(manipulateColor(color,0.7f));
+
+      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        back.setTint(color);
+        back_pressed.setTint(manipulateColor(color,0.7f));
+      }else{
+        back.setColorFilter(color,PorterDuff.Mode.SRC_IN);
+        back_pressed.setColorFilter(manipulateColor(color,0.7f),PorterDuff.Mode.SRC_IN);
+      }
+
   }
 
   public static int manipulateColor(int color, float factor) {

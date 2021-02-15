@@ -2,6 +2,7 @@ package br.com.btguth.howmany;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
@@ -96,6 +97,13 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    @Override
+    public void onResume() {
+        super.onResume();
+        initialize();
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -104,8 +112,13 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        //if (id == R.id.action_settings) {
+        //    return true;
+        //}
+
+        if (id == R.id.action_list) {
+            Intent intent = new Intent(this, ListActivity.class);
+            this.startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);
