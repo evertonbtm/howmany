@@ -10,4 +10,5 @@
     <color name="white">#FFFFFF</color>
     <color name="gray_background">#EEEEEE</color>
     <color name="gray_focus">#e0e0e0</color>
+    <color name="red">#d50000</color>
 </resources>

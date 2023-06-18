@@ -12,7 +12,7 @@
 
     <string name="tag_description">Descrição</string>
     <string name="tag_description_validator">É necessario preencher a descrição.</string>
-    <string name="tag_unity"      >Unidade de medida</string>
+    <string name="tag_unity">Unidade de medida</string>
     <string name="tag_unity_multiplier">Incremento</string>
     <string name="tag_color">Cor do contador</string>
     <string name="tag_color_button">Selecione</string>
