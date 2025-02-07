@@ -4,4 +4,4 @@
 
 # sample
 
-![alt text](https://github.com/evertonbtm/howmany/blob/dev/images/sample.png?raw=true)
+![alt text](https://github.com/evertonbtm/howmany/blob/master/images/sample.png?raw=true)
